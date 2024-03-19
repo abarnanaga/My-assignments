@@ -1,0 +1,249 @@
+{
+	"info": {
+		"_postman_id": "54f8bdd5-6dfd-4e9a-b81c-dbd36d6bd083",
+		"name": "Chaining",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25569011"
+	},
+	"item": [
+		{
+			"name": "incident create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resp = pm.response.json();\r",
+							"var sys_id = resp.result.sys_id;\r",
+							"pm.globals.set(\"system_id\",sys_id);\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/now/table/{{tname}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"{{tname}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllIncident Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/now/table/{{tname}}?sys_id={{system_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"{{tname}}"
+					],
+					"query": [
+						{
+							"key": "sysparm_fields",
+							"value": "number,sys_id,short_description",
+							"disabled": true
+						},
+						{
+							"key": "sysparm_limit",
+							"value": "5",
+							"disabled": true
+						},
+						{
+							"key": "sys_id",
+							"value": "{{system_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"short_description\":\"created by Abarna\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/now/table/{{tname}}/{{system_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"{{tname}}",
+						"{{system_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "LkG=yc%IqY84",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/now/table/{{tname}}/{{system_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"{{tname}}",
+						"{{system_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "LkG=yc%IqY84",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "admin",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "tname",
+			"value": "incident",
+			"type": "string"
+		}
+	]
+}
